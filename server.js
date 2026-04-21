@@ -39,5 +39,29 @@ app.get('/products/:id', (req, res) => {
     }
 });
 
+// Endpoint to update a product by ID
+app.put('/products/:id', (req, res) => {
+    const product = products.find(p => p.id === parseInt(req.params.id));
+    if (product) {
+        product.name = req.body.name;
+        product.price = req.body.price;
+        res.json(product);
+    } else {
+        res.status(404).send('Product not found');
+    }
+
+});
+
+// Endpoint to delete a product by ID
+app.delete('/products/:id', (req, res) => {
+    const product = products.find(p => p.id === parseInt(req.params.id));
+    if (product) {
+        products = products.filter(p => p.id !== parseInt(req.params.id));
+        res.status(204).send();
+    } else {
+        res.status(404).send('Product not found');
+    }
+});
+
 app.listen(port, () => {  console.log(`Example app listening at http://localhost:${port}`);
 });
