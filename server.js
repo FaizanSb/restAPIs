@@ -7,6 +7,7 @@ app.use(express.json()); // Middleware to parse JSON bodies
 let products = [
   { id: 1, name: 'Product 1', price: 10 },
   { id: 2, name: 'Product 2', price: 20 },
+  { id: 3, name: 'Product 3', price: 30 }
 ];
 
 app.get('/', (req, res) => {
@@ -26,6 +27,16 @@ app.post('/products', (req, res) => {
     };
     products.push(newProduct);
     res.status(201).json(newProduct);
+});
+
+// Endpoint to get a product by ID
+app.get('/products/:id', (req, res) => {
+    const product = products.find(p => p.id === parseInt(req.params.id));
+    if (product) {
+        res.json(product);
+    } else {
+        res.status(404).send('Product not found');
+    }
 });
 
 app.listen(port, () => {  console.log(`Example app listening at http://localhost:${port}`);
