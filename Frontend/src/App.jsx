@@ -27,24 +27,36 @@ function App() {
         <button className='add'>Add Product</button>
       </div>
 
-
-      <div className="list">
-        <div className="product">
-          <div className="id">1</div>
-          <div className="name">Product 1</div>
-          <div className="price">Price: $10</div>
-        </div>
-        <div className="product">
-          <div className="id">2</div>
-          <div className="name">Product 2</div>
-          <div className="price">Price: $20</div>
-        </div>
-        <div className="product">
-          <div className="id">3</div>
-          <div className="name">Product 3</div>
-          <div className="price">Price: $30</div>
-        </div>
-      </div>
+      
+      <table className="list">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody className='products'>
+          {Array.from({ length: count }, (_, i) => (
+            <tr key={i}>
+              <td>{i + 1}</td>
+              <td>Product {i + 1}</td>
+              <td>{(i + 1) * 10}</td>
+              <td>
+                <button className='edit'>Edit</button>
+                <button className='delete'>Delete</button>
+              </td>
+            </tr>
+          ))}
+          
+          {count === 0 && (
+            <tr>
+              <td colSpan="4" className="no-products">No products available</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </>
   )
 }
