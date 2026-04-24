@@ -20,7 +20,13 @@ function App() {
         </div>
 
       </div>
-      <input type="text" placeholder="Enter product name" className='search'/>
+
+      <div className="inputs">
+        <input type="text" placeholder='Product Name' className='input' />
+        <input type="text" placeholder='Enter product price' className='input' />
+        <button className='add'>Add Product</button>
+      </div>
+
 
       <div className="list">
         <div className="product">
