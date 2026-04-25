@@ -17,19 +17,29 @@ app.get('/', (req, res) => {
 });
 // Endpoint to get all products
 app.get('/products', (req, res) => {
-  
+    try {
+        const product = await Product.find();
+        res.json(product);
+        
+    }catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
 });
 // Endpoint to add a new product
 app.post('/products', (req, res) => {
-
-    const newProduct = {
-        id: products.length + 1,
-        name: req.body.name,
-        price: req.body.price
-    };
-    products.push(newProduct);
-    res.status(201).json(newProduct);
+    try {
+        const newProduct = new Product({
+            name: req.body.name,
+            price: req.body.price
+        });
+        const savedProduct = await newProduct.save();
+        res.json(savedProduct);
+        res.status(201).json(savedProduct);
+        } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
 });
+
 
 // Endpoint to get a product by ID
 app.get('/products/:id', (req, res) => {
