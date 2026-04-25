@@ -8,12 +8,6 @@ const port = 3000;
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // Middleware to parse JSON bodies
 
-// let products = [
-//   { id: 1, name: 'Product 1', price: 10 },
-//   { id: 2, name: 'Product 2', price: 20 },
-//   { id: 3, name: 'Product 3', price: 30 }
-// ];
-
 mongoose.connect('mongodb://localhost:27017/productdb')
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
@@ -23,7 +17,7 @@ app.get('/', (req, res) => {
 });
 // Endpoint to get all products
 app.get('/products', (req, res) => {
-  res.json(products);
+  
 });
 // Endpoint to add a new product
 app.post('/products', (req, res) => {
