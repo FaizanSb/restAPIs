@@ -43,36 +43,50 @@ app.post('/products', (req, res) => {
 
 // Endpoint to get a product by ID
 app.get('/products/:id', (req, res) => {
-    const product = products.find(p => p.id === parseInt(req.params.id));
-    if (product) {
-        res.json(product);
-    } else {
-        res.status(404).send('Product not found');
+    try {
+        const product = await Product.findById(req.params.id);
+        if (product) {
+            res.json(product);
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    }catch (err) {
+        res.status(500).json({ message: 'Server error' });
     }
 });
 
 // Endpoint to update a product by ID
 app.put('/products/:id', (req, res) => {
-    const product = products.find(p => p.id === parseInt(req.params.id));
-    if (product) {
-        product.name = req.body.name;
-        product.price = req.body.price;
-        res.json(product);
-    } else {
-        res.status(404).send('Product not found');
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            { name: req.body.name, price: req.body.price },
+            { new: true }
+        );
+        if (updatedProduct) {
+            res.json(updatedProduct);
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+
+    }catch (err) {
+        res.status(500).json({ message: 'Server error' });
     }
 
 });
 
 // Endpoint to delete a product by ID
 app.delete('/products/:id', (req, res) => {
-    const product = products.find(p => p.id === parseInt(req.params.id));
-    if (product) {
-        products = products.filter(p => p.id !== parseInt(req.params.id));
-        res.status(204).send();
+   try {
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    if (deletedProduct) {
+        res.json({ message: 'Product deleted' });
     } else {
-        res.status(404).send('Product not found');
+        res.status(404).json({ message: 'Product not found' });
     }
+   } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+   }
 });
 
 app.listen(port, () => {  console.log(`Example app listening at http://localhost:${port}`);
