@@ -1,4 +1,6 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const Product = require('./schema'); // Import the Product model from schema.js
 const cors = require('cors');
 const app = express();
 const port = 3000;
@@ -6,11 +8,15 @@ const port = 3000;
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // Middleware to parse JSON bodies
 
-let products = [
-  { id: 1, name: 'Product 1', price: 10 },
-  { id: 2, name: 'Product 2', price: 20 },
-  { id: 3, name: 'Product 3', price: 30 }
-];
+// let products = [
+//   { id: 1, name: 'Product 1', price: 10 },
+//   { id: 2, name: 'Product 2', price: 20 },
+//   { id: 3, name: 'Product 3', price: 30 }
+// ];
+
+mongoose.connect('mongodb://localhost:27017/productdb', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
