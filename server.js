@@ -14,7 +14,7 @@ app.use(express.json()); // Middleware to parse JSON bodies
 //   { id: 3, name: 'Product 3', price: 30 }
 // ];
 
-mongoose.connect('mongodb://localhost:27017/productdb', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/productdb')
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
