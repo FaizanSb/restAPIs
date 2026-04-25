@@ -27,7 +27,7 @@ function App() {
   }, []);
   // fill form when edit button is clicked
   const handleEdit = (product) => {
-    setEditId(product.id);
+    setEditId(product._id);
     setName(product.name);
     setPrice(product.price);
     
@@ -68,6 +68,7 @@ function App() {
 
   // delete product
   const handleDelete = async (id) => {
+    confirm("Do you want to delete this product?") && 
     await fetch(`${API}/${id}`, {
       method: 'DELETE'
     });
@@ -109,12 +110,12 @@ function App() {
         <tbody className='products'>
           {products.map((product, i) => (
             <tr key={product.id}>
-              <td>{product.id}</td>
+              <td>{product._id}</td>
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td>
                 <button className='edit' onClick={() => handleEdit(product)}>Edit</button>
-                <button className='delete' onClick={() => handleDelete(product.id)}>Delete</button>
+                <button className='delete' onClick={() => handleDelete(product._id)}>Delete</button>
               </td>
             </tr>
           ))}

@@ -16,24 +16,24 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 // Endpoint to get all products
-app.get('/products', (req, res) => {
+app.get('/products', async(req, res) => {
     try {
         const product = await Product.find();
-        res.json(product);
+        res.status(200).json(product);
         
     }catch (err) {
+        console.error("The error is ",err);
         res.status(500).json({ message: 'Server error' });
     }
 });
 // Endpoint to add a new product
-app.post('/products', (req, res) => {
+app.post('/products', async(req, res) => {
     try {
-        const newProduct = new Product({
+        const newProduct = new Product({ 
             name: req.body.name,
             price: req.body.price
         });
         const savedProduct = await newProduct.save();
-        res.json(savedProduct);
         res.status(201).json(savedProduct);
         } catch (err) {
         res.status(500).json({ message: 'Server error' });
@@ -42,7 +42,7 @@ app.post('/products', (req, res) => {
 
 
 // Endpoint to get a product by ID
-app.get('/products/:id', (req, res) => {
+app.get('/products/:id', async(req, res) => {
     try {
         const product = await Product.findById(req.params.id);
         if (product) {
@@ -56,12 +56,12 @@ app.get('/products/:id', (req, res) => {
 });
 
 // Endpoint to update a product by ID
-app.put('/products/:id', (req, res) => {
+app.put('/products/:id', async(req, res) => {
     try {
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
             { name: req.body.name, price: req.body.price },
-            { new: true }
+            { returnDocument: 'after' }
         );
         if (updatedProduct) {
             res.json(updatedProduct);
@@ -76,7 +76,7 @@ app.put('/products/:id', (req, res) => {
 });
 
 // Endpoint to delete a product by ID
-app.delete('/products/:id', (req, res) => {
+app.delete('/products/:id', async(req, res) => {
    try {
     const deletedProduct = await Product.findByIdAndDelete(req.params.id);
     if (deletedProduct) {
